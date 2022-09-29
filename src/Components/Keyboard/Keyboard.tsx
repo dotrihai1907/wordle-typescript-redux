@@ -8,6 +8,7 @@ import {
   increaseRow,
   setBoard,
 } from "../../redux/boardSlice";
+import workList from "../../words.json";
 
 const Keyboard: React.FC = () => {
   const rows: string[] = [
@@ -16,11 +17,20 @@ const Keyboard: React.FC = () => {
     "z x c v b n m",
   ];
 
+  const allWords: string[] = workList.words;
+
   const dispatch = useDispatch();
 
   const position = useSelector((state: rootState) => state.board.position);
   const board = useSelector((state: rootState) => state.board.board);
   const row = useSelector((state: rootState) => state.board.row);
+  const correctWord = useSelector(
+    (state: rootState) => state.board.correctWord
+  );
+
+  let board5Words: string = `${board[position - 5]}${board[position - 4]}${
+    board[position - 3]
+  }${board[position - 2]}${board[position - 1]}`.toLowerCase();
 
   const clickBack = () => {
     if (Math.floor((position - 1) / 5) < row) return;
@@ -31,8 +41,15 @@ const Keyboard: React.FC = () => {
   };
 
   const clickEnter = () => {
-    if (position % 5 === 0 && position !== 0) {
-      dispatch(increaseRow());
+    if (allWords.includes(board5Words) === false) {
+      alert("Invalid words");
+    } else if (allWords.includes(board5Words)) {
+      if (position % 5 === 0 && position !== 0) {
+        dispatch(increaseRow());
+      }
+    }
+    if (position === 30 && allWords.includes(board5Words)) {
+      alert("The correct word is: " + correctWord);
     }
   };
 

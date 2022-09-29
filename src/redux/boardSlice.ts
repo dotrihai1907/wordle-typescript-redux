@@ -1,4 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import wordList from "../words.json";
+
+let randomNum = Math.floor(Math.random() * wordList.words.length);
 
 const initialState = {
   board: [
@@ -35,7 +38,7 @@ const initialState = {
   ],
   position: 0, // position of letter
   row: 0, // redux row - row corresponding letter
-  correctWord: "CONES",
+  correctWord: wordList.words[randomNum].toUpperCase(),
 };
 
 const boardSlice = createSlice({

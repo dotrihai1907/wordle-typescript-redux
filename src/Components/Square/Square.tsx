@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "./square.css";
 import { motion } from "framer-motion";
@@ -54,13 +55,17 @@ const Square: React.FC<IProps> = (props) => {
       setAlmost(false);
       setWrong(false);
     };
-  }, [correct, correctWord, currentPositionPerRow, value]);
+  }, [value]);
 
-  const status: any = correct ? 'correct' : almost ? 'almost' : wrong
+  const status: any =
+    Math.floor(squareIndex / 5) < reduxRow &&
+    (correct ? "correct" : almost ? "almost" : wrong ? "wrong" : "");
 
   return (
     <motion.div animate={value ? "filled" : "unfilled"} variants={variants}>
-      <div className="square" id={status}>{value}</div>
+      <div className="square" id={status ? status : undefined}>
+        {value}
+      </div>
     </motion.div>
   );
 };
